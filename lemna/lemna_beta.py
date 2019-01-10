@@ -167,7 +167,7 @@ class xai_rnn(object):
             #print '\ninactive --->',inactive
             tmp_sampled = np.copy(self.trunc_data)
             tmp_sampled[inactive] = 0
-	    #tmp_sampled[inactive] = np.random.choice(range(257), size, replace = False)
+            #tmp_sampled[inactive] = np.random.choice(range(257), size, replace = False)
             tmp_sampled = tmp_sampled.reshape(1, self.trunc_data.shape[0])
             data_explain = np.concatenate((data_explain, tmp_sampled), axis=0)
             data_sampled_mutate = np.copy(self.data)
@@ -314,38 +314,38 @@ if __name__ == "__main__":
                 xai_test = xai_rnn(model, x_test_d, binary_func_start[j], idx_Row[j])
                 print xai_test.pred[0, 1]
                 if xai_test.pred[0, 1] > 0.5:
-                   truncate_seq_data = xai_test.truncate_seq(40)
-                   xai_fea = xai_test.xai_feature(500)
-                   fea = np.zeros_like(xai_test.data)
-                   fea[0, xai_fea[0:25]] = xai_test.data[0, xai_fea[0:25]]
-                   #print fea
-                   #print xai_fea - idx_Row[j]
-                   print '==================================================='
-                   fid_tt = fid_test(xai_test)
+                    truncate_seq_data = xai_test.truncate_seq(40)
+                    xai_fea = xai_test.xai_feature(500)
+                    fea = np.zeros_like(xai_test.data)
+                    fea[0, xai_fea[0:25]] = xai_test.data[0, xai_fea[0:25]]
+                    #print fea
+                    #print xai_fea - idx_Row[j]
+                    print '==================================================='
+                    fid_tt = fid_test(xai_test)
 
-                   test_data, P1, P2 = fid_tt.pos_boostrap_exp(n_fea_select)
-                   print 'Pos fide test probability >>>', P1, P2
-                   print 'Expect a low probability'
-                   if P1 > 0.5:
+                    test_data, P1, P2 = fid_tt.pos_boostrap_exp(n_fea_select)
+                    print 'Pos fide test probability >>>', P1, P2
+                    print 'Expect a low probability'
+                    if P1 > 0.5:
                        n_pos = n_pos + 1
-                   if P2 > 0.5:
+                    if P2 > 0.5:
                        n_pos_rand = n_pos_rand + 1
 
-                   test_data, P_test_1, P_test_2 = fid_tt.new_test_exp(n_fea_select)
-                   print 'New fide test probability >>>', P_test_1
-                   print 'Expect a high probability'
-                   if P_test_1> 0.5:
+                    test_data, P_test_1, P_test_2 = fid_tt.new_test_exp(n_fea_select)
+                    print 'New fide test probability >>>', P_test_1
+                    print 'Expect a high probability'
+                    if P_test_1> 0.5:
                        n_new = n_new + 1
-                   if P_test_2 > 0.5:
+                    if P_test_2 > 0.5:
                        n_new_rand = n_new_rand + 1
 
-                   test_seed = x_test[0, ]
-                   neg_test_data, P_neg_1, P_neg_2 = fid_tt.neg_boostrap_exp(test_seed, n_fea_select)
-                   print 'Neg fide test probability >>>', P_neg_1
-                   print 'Expect a high probability'
-                   if P_neg_1 > 0.5:
+                    test_seed = x_test[0, ]
+                    neg_test_data, P_neg_1, P_neg_2 = fid_tt.neg_boostrap_exp(test_seed, n_fea_select)
+                    print 'Neg fide test probability >>>', P_neg_1
+                    print 'Expect a high probability'
+                    if P_neg_1 > 0.5:
                        n_neg = n_neg + 1
-                   if P_neg_2 > 0.5:
+                    if P_neg_2 > 0.5:
                        n_neg_rand = n_neg_rand + 1
 
     print n
