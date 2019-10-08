@@ -7,12 +7,11 @@
 More details can be found in our papers:
 
 ```
-[1] Explaining Deep Learning Models -- A Bayesian Non-parametric Approach
-(http://www.personal.psu.edu/wzg13/publications/nips18.pdf) 
+[1] [Explaining Deep Learning Models -- A Bayesian Non-parametric Approach](http://www.personal.psu.edu/wzg13/publications/nips18.pdf) 
 Wenbo Guo, Sui Huang, Yunzhe Tao, Xinyu Xing, Lin Lin
 In NeurIPS 2018
 
-[2] lemna: LEMNA: Explaining Deep Learning based Security Applications (http://www.personal.psu.edu/wzg13/publications/ccs18.pdf) 
+[2] LEMNA: Explaining Deep Learning based Security Applications(http://www.personal.psu.edu/wzg13/publications/ccs18.pdf) 
 Wenbo Guo, Dongliang Mu, Jun Xu, Purui Su, Gang Wang, Xinyu Xing 
 In CCS 2018
 ```
