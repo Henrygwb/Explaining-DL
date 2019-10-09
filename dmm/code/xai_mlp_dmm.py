@@ -271,3 +271,45 @@ if __name__ == "__main__":
     print 'Acc pos:', float(n_pos_rand) / n
     print 'Acc new:', float(n_new_rand) / n
     print 'Acc neg:', float(n_neg_rand) / n
+
+    ## fidelity test of lime
+    n_pos = 0
+    n_new = 0
+    n_neg = 0
+
+    n_pos_rand = 0
+    n_new_rand = 0
+    n_neg_rand = 0
+    n = 0
+
+    ## test on all the malware
+    idx = np.nonzero(y_train)[0]
+    for i in idx:
+        if n%100 ==0:
+            print n
+        data_for_explain = X_train[i,:].reshape(1, 135)
+        n = n + 1
+
+        fea = LIME_xai(data_for_explain, 500, n_fea_select)
+        fea = fea[0:n_fea_select]
+        xai_test = xai_mlp(model, data_for_explain, fea, n_fea_select)
+
+        fid_tt = fid_test(xai_test)
+        test_data, P1, P2 = fid_tt.fea_deduct_test(n_fea_select)
+        if P1 > 0.5:
+            n_pos = n_pos + 1
+
+        test_data, P_test_1, P_test_2 = fid_tt.syn_test(n_fea_select)
+        if P_test_1> 0.5:
+            n_new = n_new + 1
+
+        test_seed = X_train[seed_idx, ]
+        neg_test_data, P_neg_1, P_neg_2 = fid_tt.fea_aug_test(test_seed, n_fea_select)
+        if P_neg_1 > 0.5:
+            n_neg = n_neg + 1
+
+    print n
+    print 'lime'
+    print 'Acc pos:', float(n_pos)/n
+    print 'Acc new:', float(n_new)/n
+    print 'Acc neg:', float(n_neg)/n
