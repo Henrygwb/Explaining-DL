@@ -20,8 +20,14 @@ The repo consists the following three parts:
   - Dirichlet process mixture regression model (DMM). This model is used to explainan MLP. We use an example of a PDFmalware classifier to demonstrate its usage.
   - Dirichlet process mixture regression model with multiple elastic nets (DMM-MEN) with an example of explaining CNN image classifier.
   - Mixture regression model with fused lasso (LEMNA) with an example of explaining and patching a binary function start identification RNN. 
-  
+
+## Requirments
+
+`R` and `python` are required. I am using `R 3.4.3` and `python 2.7`, other versions may also work. Some required R packages are specified in each R script. To install them, use `install.packages(package_name)`. The required python libraries are also specified in the python file, they can be installed via either `pip` or `conda`. Note that I am using `rpy==2.8.6` and `Keras==2.2.4` .
+
+
 ## DMM for MLP
+
 The folder `dmm` contains three folders: `data`, `model`, and `code`. 
 - `data` contains the training set `traing_pdf.npz` and the testing set `testing_pdf.npz` used to train the MLP model. 
 - `model` contains the target MLP model that we want to explain. 
@@ -57,5 +63,6 @@ Note that the python file `xai_dmm.py` calls the R functions that fitting the DM
 ## LEMNA for RNN
 
 ## Misc
+
 I maintain a paper list about explanable deep learning. It includes the related paper published in major machine learning conferences (NeurIPS, ICML, and ICLR), security conferences (CCS, USENIX Security, S\&P, and NDSS), and vision conferences (CVPR, ICCV). Please check the following link for more details:
 - https://docs.google.com/document/d/11QMlGF1G42v3sRV76ANaFWqdA30jQdEByBh0d8mlx30/edit?usp=sharing
