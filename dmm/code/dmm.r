@@ -39,7 +39,7 @@ for(iter in 1:1){
   ### (beta, sigma2) ~ NIG(m, V_beta, a,b)
   V_beta <- diag(3,p)
   m <- colMeans(X)#rep(0,p)#colMeans(X)
-  J = 6;
+  J = 3;
   e = 5;
   f = 1; #alpha
   TT = 20000;
