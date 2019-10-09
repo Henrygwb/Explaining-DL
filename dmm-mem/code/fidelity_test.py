@@ -72,7 +72,7 @@ class fidelity_test(object):
 			b_1 = np.zeros((1, 784))
 			b_1[0, selected_feature] = a
 			b_1 = b_1.reshape(28, 28)
-			plt.imsave( file_name+'_'+str(i)+'.png', b_1, cmap='hot')
+			plt.imsave( file_name+'_'+str(i)+'.pdf', b_1, cmap='hot')
 			i = i+1
 
 	def fidelity_test_nullification(self, num_fea, option, pp):
