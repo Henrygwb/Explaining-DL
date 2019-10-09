@@ -24,13 +24,30 @@ The repo consists the following three parts:
 ## DMM for MLP
 The folder `dmm` contains three folders: `data`, `model`, and `code`. 
 - `data` contains the training set `traing_pdf.npz` and the testing set `testing_pdf.npz` used to train the MLP model. 
-- `model` contains the target MLP model that we want to explain. To load the data, model and check the model performance (testing accuracy 99.18%):
-```
- python model.py
-```
+- `model` contains the target MLP model that we want to explain. 
+- `code` contains the implementation of the explanation and evaluation process. 
 
-- `code` contains the implementation of the 
+The whole work-flow is as follows:
+	- Load the data, model; check the model performance (testing accuracy 99.18%); and get the model predictions for the a group samples (either testing or training samples).
 
+		```
+		 python model.py
+		```
+
+	- Use the selected samples and the corresponding DL model predictions to fit a DMM model and get the regressions coefficients of the trained DMM model.
+		
+		```
+		Rscript dmm.r
+		```
+
+	- Pinpoint the important features by ranking the regression coefficients and conduct the fidelity test:
+		
+		```
+		python xai_mlp_dmm.py
+		```
+
+
+Note that the python file `xai_dmm.py` calls the R functions that fitting the DMM model (`dmm.R`) and conducting the post-processing (`analysis.R`), if you want to tune the hyper-parameters of the DMM model, you can change them in the `dmm.R` (I put the comments to locating the hyper-parameter initialization.). If you encounter errors related to the R code, it is likely you don't install the required packages or you don't make the names of the input samples consistent.
 
 ## DMM-MEN for CNN
 
