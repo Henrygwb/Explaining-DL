@@ -204,7 +204,7 @@ if __name__ == "__main__":
     print("Precision: %s Recall: %s Accuracy: %s F1: %s" % (precision, recall, accuracy, F1))
 
     ## load the mixture regression coefficients.
-    param_file = 'final_parameters.RData'
+    param_file = 'dmm_parameters.RData'
     robjects.r['load'](param_file)
     Z = np.asarray((robjects.r['final_params'][0]))
     Beta = np.asarray((robjects.r['final_params'][1]))
@@ -237,6 +237,7 @@ if __name__ == "__main__":
         data_for_explain = X_train[i,:].reshape(1, 135)
         n = n + 1
 
+        fea = np.argsort(Beta[:, (Z[i]-1)])
         fea = fea[0:n_fea_select]
         xai_test = xai_mlp(model, data_for_explain, fea, n_fea_select)
 
