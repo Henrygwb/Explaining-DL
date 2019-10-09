@@ -32,6 +32,7 @@ The folder `dmm` contains three folders: `data`, `model`, and `code`.
 - `data` contains the training set `traing_pdf.npz` and the testing set `testing_pdf.npz` used to train the MLP model. 
 - `model` contains the target MLP model that we want to explain. 
 - `code` contains the implementation of the explanation and evaluation process. 
+- `results` has two groups of dmm model parameters can be used for extracting important features and fidelity tests.
 
 The whole work-flow is as follows:
 - Load the data, model; check the model performance (testing accuracy 99.18%); and get the model predictions for the a group samples (either testing or training samples).
@@ -45,7 +46,7 @@ python model.py
 ```
 Rscript dmm.r
 ```
-You should be able to get a `dmm_parameters.RData` file which stores the final regression parameters and The terminal should print the final RMSE: XXXX.
+You should be able to get a `dmm_parameters.RData` file which stores the final regression parameters and The terminal should print the final RMSE.
 
 - Pinpoint the important features by ranking the regression coefficients and conduct the fidelity tests (feature deduction, feature augmentation, and Synthetic test):
 		
