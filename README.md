@@ -28,7 +28,7 @@ The repo consists the following three parts:
 
 ## DMM for MLP
 
-The folder `dmm` contains three folders: `data`, `model`, and `code`. 
+The folder `dmm` contains four folders: `data`, `model`, `results` and `code`. 
 - `data` contains the training set `traing_pdf.npz` and the testing set `testing_pdf.npz` used to train the MLP model. 
 - `model` contains the target MLP model that we want to explain. 
 - `code` contains the implementation of the explanation and evaluation process. 
@@ -48,7 +48,7 @@ Rscript dmm.r
 ```
 You should be able to get a `dmm_parameters.RData` file which stores the final regression parameters and The terminal should print the final RMSE.
 
-- Pinpoint the important features by ranking the regression coefficients and conduct the fidelity tests (feature deduction, feature augmentation, and Synthetic test):
+- Pinpoint the important features by ranking the regression coefficients and conduct the fidelity tests (feature deduction, feature augmentation, and Synthetic test) [2]:
 		
 ```
 python xai_mlp_dmm.py -nf 5
@@ -56,10 +56,32 @@ python xai_mlp_dmm.py -nf 5
 
 `-nf` controls the number of features selected. The final printed information is the three fidelity testing results of our technique and random feature selection.
 
-Note that the python file `xai_dmm.py` calls the R functions that fitting the DMM model (`dmm.R`) and conducting the post-processing (`analysis.R`), if you want to tune the hyper-parameters of the DMM model, you can change them in the `dmm.R` (I put the comments to locating the hyper-parameter initialization.). If you encounter errors related to the R code, it is likely you don't install the required packages or you don't make the names of the input samples consistent.
+The DMM model is in `dmm.R` and the post-processing is `analysis.R`, if you want to tune the hyper-parameters of the DMM model, you can change them in the `dmm.R` (I put the comments to locating the hyper-parameter initialization.). If you encounter errors related to the R code, it is likely you don't install the required packages or you don't make the names of the input samples consistent.
 
 ## DMM-MEN for CNN
 
+The folder `dmm-men` contains the model of DMM-MEN and an example of explaining the Trouser class of a CNN trained on Fashion-MNIST model. It shares the similar structure with `dmm`.
+
+- Load the data, model; get the model predictions for the samples belonging to the target class and conduct dimensional reduction.
+	
+```
+python cnn_fashion.py
+```
+
+- Fit a DMM-MEN model.
+		
+```
+Rscript dmm_men.r
+```
+Model parameters are stored in `results`.
+
+- Pinpoint the important features and visualize them in heatmap; Conduct the bootstrap fidelity tests in [1]:
+		
+```
+python xai_cnn_dmm_men.py
+```
+
+Here, I conducted a global approximation for the target class. Since the samples are assigned to multiple mixture components, we get multiple groups of common rules (commonly important features). The fidelity tests are conducted on the component which is assigned with the most number of samples.  I put my results in the `results` folder together with some visualization of the generated testing samples.
 
 ## LEMNA for RNN
 
