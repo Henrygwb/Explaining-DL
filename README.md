@@ -38,7 +38,7 @@ The whole work-flow is as follows:
 - Load the data, model; check the model performance (testing accuracy 99.18%); and get the model predictions for the a group samples (either testing or training samples).
 	
 ```
-python model.py
+python mlp_malware.py
 ```
 
 - Use the selected samples and the corresponding DL model predictions to fit a DMM model and get the regressions coefficients of the trained DMM model.
