@@ -134,4 +134,4 @@ n <- length(Zind_final)
 ################ feature selection ################
 
 final_params <- list(Z = Zind_final, Beta = Beta_final, Sigma2 = Sigma2_final)
-save(final_params, file = 'dmm_parameters.RData')
+save(final_params, file = '../results/dmm_parameters.RData')

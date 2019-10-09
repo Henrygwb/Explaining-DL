@@ -185,7 +185,7 @@ if __name__ == "__main__":
     
     ## specify the number of features selected.
     parser = argparse.ArgumentParser()
-    parser.add_argument('-nf', '--num_feature', help='number of features', type=str, default='5')
+    parser.add_argument('-nf', '--num_feature', help='number of features', type=str, default='75')
     args = parser.parse_args()
     n_fea_select = int(args.num_feature)
 
@@ -204,7 +204,8 @@ if __name__ == "__main__":
     print("Precision: %s Recall: %s Accuracy: %s F1: %s" % (precision, recall, accuracy, F1))
 
     ## load the mixture regression coefficients.
-    param_file = 'dmm_parameters.RData'
+    # param_file = 'final_parameters_1.RData'
+    param_file = '../results/dmm_parameters.RData'
     robjects.r['load'](param_file)
     Z = np.asarray((robjects.r['final_params'][0]))
     Beta = np.asarray((robjects.r['final_params'][1]))
@@ -271,6 +272,7 @@ if __name__ == "__main__":
     print 'Acc pos:', float(n_pos_rand) / n
     print 'Acc new:', float(n_new_rand) / n
     print 'Acc neg:', float(n_neg_rand) / n
+
 
     ## fidelity test of lime
     n_pos = 0
