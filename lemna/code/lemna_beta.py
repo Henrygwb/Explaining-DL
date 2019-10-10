@@ -250,11 +250,10 @@ class fid_test(object):
 
 if __name__ == "__main__":
     print '[Load model...]'
-    model = load_model('target_model/O0_Bi_Rnn.h5')
-    PATH_TEST_DATA = 'data/elf_x86_32_gcc_O0_test.pkl'
+    model = load_model('../model/O1_Bi_Rnn.h5')
+    PATH_TEST_DATA = '../data/elf_x86_32_gcc_O2_test.pkl'
     n_fea_select = 25
 
-    #PATH_TEST_DATA = 'elf_x86_32_gcc_O0_test.pkl'
     print '[Load data...]'
     data = pickle.load(file(PATH_TEST_DATA))
     data_num = len(data[0])
@@ -270,10 +269,7 @@ if __name__ == "__main__":
     for test_id in xrange(data_num):
         y_test[test_id, np.arange(seq_len), y[test_id]] = 1
 
-    #print x_test.shape
-    #print y.shape
-    #print y_test.shape
-
+    # extract all the function starts for explanation
     idx = np.nonzero(y)[0]
     start_points = np.nonzero(y)[1]
 
@@ -290,9 +286,6 @@ if __name__ == "__main__":
     n_new_rand = 0
     n_neg_rand = 0
     n = 0
-    #print y[np.nonzero(y)]
-    #print x_test[np.nonzero(y)]
-    #print x_test[idx,start_points]
 
     for i in xrange(len(x_test)):
         if i in idx:
@@ -306,13 +299,13 @@ if __name__ == "__main__":
             x_test_d = x_test[i:i + 1]
 
             for j in xrange(len(idx_Row)):
-                print '==================================================='
-                print 'seq_id', i
-                print 'function_start', binary_func_start[j]
-                print 'start_position', idx_Row[j]
+                # print '==================================================='
+                # print 'seq_id', i
+                # print 'function_start', binary_func_start[j]
+                # print 'start_position', idx_Row[j]
                 n = n + 1
                 xai_test = xai_rnn(model, x_test_d, binary_func_start[j], idx_Row[j])
-                print xai_test.pred[0, 1]
+                # print xai_test.pred[0, 1]
                 if xai_test.pred[0, 1] > 0.5:
                     truncate_seq_data = xai_test.truncate_seq(40)
                     xai_fea = xai_test.xai_feature(500)
@@ -320,20 +313,20 @@ if __name__ == "__main__":
                     fea[0, xai_fea[0:25]] = xai_test.data[0, xai_fea[0:25]]
                     #print fea
                     #print xai_fea - idx_Row[j]
-                    print '==================================================='
+                    # print '==================================================='
                     fid_tt = fid_test(xai_test)
 
                     test_data, P1, P2 = fid_tt.pos_boostrap_exp(n_fea_select)
-                    print 'Pos fide test probability >>>', P1, P2
-                    print 'Expect a low probability'
+                    # print 'Pos fide test probability >>>', P1, P2
+                    # print 'Expect a low probability'
                     if P1 > 0.5:
                        n_pos = n_pos + 1
                     if P2 > 0.5:
                        n_pos_rand = n_pos_rand + 1
 
                     test_data, P_test_1, P_test_2 = fid_tt.new_test_exp(n_fea_select)
-                    print 'New fide test probability >>>', P_test_1
-                    print 'Expect a high probability'
+                    # print 'New fide test probability >>>', P_test_1
+                    # print 'Expect a high probability'
                     if P_test_1> 0.5:
                        n_new = n_new + 1
                     if P_test_2 > 0.5:
@@ -341,14 +334,13 @@ if __name__ == "__main__":
 
                     test_seed = x_test[0, ]
                     neg_test_data, P_neg_1, P_neg_2 = fid_tt.neg_boostrap_exp(test_seed, n_fea_select)
-                    print 'Neg fide test probability >>>', P_neg_1
-                    print 'Expect a high probability'
+                    # print 'Neg fide test probability >>>', P_neg_1
+                    # print 'Expect a high probability'
                     if P_neg_1 > 0.5:
                        n_neg = n_neg + 1
                     if P_neg_2 > 0.5:
                        n_neg_rand = n_neg_rand + 1
 
-    print n
     print 'Our method'
     print 'Acc pos:', float(n_pos)/n
     print 'Acc new:', float(n_new)/n

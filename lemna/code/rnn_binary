@@ -1,0 +1,102 @@
+import os
+
+os.environ["THEANO_FLAGS"] = "device=gpu0,floatX=float32"
+import numpy as np
+import cPickle as pickle
+from scipy.io import savemat
+from keras.models import Sequential, load_model
+from keras.layers import Dense, TimeDistributed, Dropout, SimpleRNN, Bidirectional, Activation
+from keras.layers.embeddings import Embedding
+from keras.preprocessing.sequence import pad_sequences
+
+np.random.seed(1234)
+
+
+def perf_measure(y_true, y_pred):
+    # Number of element that actually not function start
+    TP_FN = np.count_nonzero(y_true)
+    FP_TN = y_true.shape[0] * y_true.shape[1] - TP_FN
+    FN = np.where((y_true - y_pred) == 1)[0].shape[0]
+    TP = TP_FN - FN
+    FP = np.count_nonzero(y_pred) - TP
+    TN = FP_TN - FP
+    Precision = float(float(TP) / float(TP + FP + 1e-9))
+    Recall = float(float(TP) / float((TP + FN + 1e-9)))
+    accuracy = float(float(TP + TN) / float((TP_FN + FP_TN + 1e-9)))
+    return Precision, Recall, accuracy
+
+
+def train_RNN_model(train_file, test_file, model_file, train_flag):
+    print 'load data ...'
+    print('**************************')
+    data = pickle.load(file(train_file))
+    data_num = len(data[0])
+    x_len = [len(s) for s in data[0]]
+    seq_len = max(x_len)
+    x_train = pad_sequences(data[0], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=1)
+    x_train = x_train + 1
+    y = pad_sequences(data[1], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=1)
+
+    y_train = np.zeros((data_num, seq_len, 2), dtype=y.dtype)
+    for train_id in xrange(data_num):
+        y_train[train_id, np.arange(seq_len), y[train_id]] = 1
+
+    data = pickle.load(file(test_file))
+    test_num = len(data[0])
+    x_test = pad_sequences(data[0], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=1)
+    y_1 = pad_sequences(data[1], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=1)
+
+    y_test = np.zeros((test_num, seq_len, 2))
+    for test_id in xrange(test_num):
+        y_test[test_id, np.arange(seq_len), y_1[test_id]] = 1
+    x_test = x_test + 1
+
+    print x_train.shape
+    print y_train.shape
+    print x_test.shape
+    print y_test.shape
+
+    if train_flag:
+        print 'train model ...'
+        print('**************************')
+
+        batch_size = 100
+        epoch_num = 150
+
+        model = Sequential()
+        model.add(Embedding(input_dim=257, output_dim=16, input_length=seq_len, ))
+        model.add(Bidirectional(SimpleRNN(units=8, activation='relu', dropout=0.5, return_sequences=True)))
+        model.add(TimeDistributed(Dense(2, activation='softmax'), input_shape=(seq_len, 8)))
+        # try using different optimizers and different optimizer configs
+        model.compile('adam', 'categorical_crossentropy', metrics=['accuracy'])
+
+        model.fit(x_train, y_train, batch_size=batch_size,
+                  epochs=epoch_num, verbose=1,
+                  validation_data=[x_test, y_test])
+        model.save(model_file)
+    else:
+        model = load_model(model_file)
+
+    model.summary()
+    print 'evaluate model ...'
+    print('**************************')
+    print('evaluating train data....')
+    # Number of element that actually function start
+    P_train = model.predict_classes(x_train, verbose=0)
+    (precision, recall, accuracy) = perf_measure(y_true=y, y_pred=P_train)
+    print("Precision: %s Recall: %s Accuracy: %s" %
+          (precision, recall, accuracy))
+
+    print('**************************')
+    print('evaluating test data.....')
+    P_test = model.predict_classes(x_test, verbose=0)
+    (precision, recall, accuracy) = perf_measure(y_true=y_1, y_pred=P_test)
+    print("Precision: %s Recall: %s Accuracy: %s" %
+          (precision, recall, accuracy))
+
+
+if __name__ == '__main__':
+    train_file = '../data/elf_x86_32_gcc_O1_train.pkl'
+    test_file = '../data/elf_x86_32_gcc_O1_test.pkl'
+    model_file = '../model/O1_Bi_Rnn.h5'
+    train_RNN_model(train_file, test_file, model_file, train_flag=0)
