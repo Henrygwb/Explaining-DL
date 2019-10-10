@@ -23,7 +23,7 @@ The repo consists the following three parts:
 
 ## Requirments
 
-`R` and `python` are required. I am using `R 3.4.3` and `python 2.7`, other versions may also work. Some required R packages are specified in each R script. To install them, use `install.packages(package_name)`. The required python libraries are also specified in the python file, they can be installed via either `pip` or `conda`. Note that I am using `rpy==2.8.6` and `Keras==2.2.4` .
+`R` and `python` are required. I am using `R 3.4.3` and `python 2.7`, other versions may also work. Some required R packages are specified in each R script. To install them, use `install.packages(package_name)`. The required python libraries are also specified in the python file, they can be installed via either `pip` or `conda`. Note that I am using `rpy==2.8.6` and `Keras==2.2.4` . Two R packages are required and will be loaded by python `genlasso` and `gsubfn`.
 
 
 ## DMM for MLP
@@ -81,11 +81,33 @@ Model parameters are stored in `results`.
 python xai_cnn_dmm_men.py
 ```
 
-Here, I conducted a global approximation for the target class. Since the samples are assigned to multiple mixture components, we get multiple groups of common rules (commonly important features). The fidelity tests are conducted on the component which is assigned with the most number of samples.  I put my results in the `results` folder together with some visualization of the generated testing samples.
+Here, I conducted a global approximation for the target class. Since the samples are assigned to multiple mixture components, we get multiple groups of common rules (commonly important features). The fidelity tests are conducted on the component which is assigned with the most number of samples. I put my results in the `results` folder together with some visualization of the generated testing samples.
 
 ## LEMNA for RNN
 
+The folder `lemna` contains the model of Fused LASSO regression and an example of explaining an RNN trained to identify the function starts of binaries complied with O1 optimization option [2]. The codes include training and loading the RNN model, explanation and fidelity testing, and model patching. 
+
+- Load the data, model; get the model predictions for the samples belonging to the target class and conduct dimensional reduction.
+	
+```
+python rnn_binary.py
+```
+
+- Explaining with LENMA and conduct fidelity tests.
+		
+```
+python lemna_beta.py
+```
+
+- Patching the testing errors of the RNN model based on explanation.
+
+```
+python patch.py
+```
+
+Hyperparameters of each component can be set in each python file and I wrote comments to explain the designed classes and functions. I also put my explanation results and the fixed model in the `results` folder. The fixed model is able to reduce the number of false positive from 33 to 17 and the number of false negative from 48 to 24.
+
 ## Misc
 
-I maintain a paper list about explanable deep learning. It includes the related paper published in major machine learning conferences (NeurIPS, ICML, and ICLR), security conferences (CCS, USENIX Security, S\&P, and NDSS), and vision conferences (CVPR, ICCV). Please check the following link for more details:
+I maintain a paper list about explanable deep learning. It includes the related papers published in major machine learning conferences (NeurIPS, ICML, and ICLR), security conferences (CCS, USENIX Security, S\&P, and NDSS), and vision conferences (CVPR, ICCV). Please check the following link for more details:
 - https://docs.google.com/document/d/11QMlGF1G42v3sRV76ANaFWqdA30jQdEByBh0d8mlx30/edit?usp=sharing
