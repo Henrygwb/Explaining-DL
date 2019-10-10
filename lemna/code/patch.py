@@ -194,6 +194,23 @@ if __name__ == "__main__":
     print("Precision: %s Recall: %s Accuracy: %s TP: %s FN_all: %s FN_true: %s FP: %s TN: %s" %
           (precision, recall, accuracy, TP, FN_1, FN_2, FP, TN))
 
+    """
+    print '[Load fixed model...]'
+    model = load_model("../results/O1_Bi_Rnn_fixed.h5")
+
+    print'evaluating train data....'
+    P_train = model.predict_classes(x_train, verbose=0)
+    (precision, recall, accuracy, TP, FN_1, FN_2, FP, TN) = perf_measure(y_true=y, y_pred=P_train, x=x_train)
+    print("Precision: %s Recall: %s Accuracy: %s TP: %s FN_all: %s FN_true: %s FP: %s TN: %s" %
+          (precision, recall, accuracy, TP, FN_1, FN_2, FP, TN))
+
+    print "evaluating test data..."
+    P_test = model.predict_classes(x_test, verbose=0)
+    (precision, recall, accuracy, TP, FN_1, FN_2, FP, TN) = perf_measure(y_true=y_t, y_pred=P_test, x=x_test)
+    print("Precision: %s Recall: %s Accuracy: %s TP: %s FN_all: %s FN_true: %s FP: %s TN: %s" %
+          (precision, recall, accuracy, TP, FN_1, FN_2, FP, TN))
+    """
+
     print 'fixing testing error for False negative...................'
     idx = np.nonzero(y_t)[0]
     start_points = np.nonzero(y_t)[1]
