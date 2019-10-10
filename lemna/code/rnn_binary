@@ -33,9 +33,9 @@ def train_RNN_model(train_file, test_file, model_file, train_flag):
     data_num = len(data[0])
     x_len = [len(s) for s in data[0]]
     seq_len = max(x_len)
-    x_train = pad_sequences(data[0], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=1)
+    x_train = pad_sequences(data[0], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=0)
     x_train = x_train + 1
-    y = pad_sequences(data[1], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=1)
+    y = pad_sequences(data[1], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=0)
 
     y_train = np.zeros((data_num, seq_len, 2), dtype=y.dtype)
     for train_id in xrange(data_num):
@@ -43,8 +43,8 @@ def train_RNN_model(train_file, test_file, model_file, train_flag):
 
     data = pickle.load(file(test_file))
     test_num = len(data[0])
-    x_test = pad_sequences(data[0], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=1)
-    y_1 = pad_sequences(data[1], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=1)
+    x_test = pad_sequences(data[0], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=0)
+    y_1 = pad_sequences(data[1], maxlen=seq_len, dtype='int32', padding='post', truncating='post', value=0)
 
     y_test = np.zeros((test_num, seq_len, 2))
     for test_id in xrange(test_num):
