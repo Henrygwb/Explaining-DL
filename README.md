@@ -7,7 +7,7 @@ This repo is about explaining the outputs of a well-trained black-box deep learn
 More details can be found in our papers:
 
 ```
-[1] [Explaining Deep Learning Models -- A Bayesian Non-parametric Approach]
+[1] Explaining Deep Learning Models -- A Bayesian Non-parametric Approach
 Wenbo Guo, Sui Huang, Yunzhe Tao, Xinyu Xing, Lin Lin
 In NeurIPS 2018
 
