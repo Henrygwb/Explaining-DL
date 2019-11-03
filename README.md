@@ -109,5 +109,8 @@ Hyperparameters of each component can be set in each python file and I wrote com
 
 ## Misc
 
-I maintain a paper list about explanable deep learning. It includes the related papers published in major machine learning conferences (NeurIPS, ICML, and ICLR), security conferences (CCS, USENIX Security, S\&P, and NDSS), and vision conferences (CVPR, ICCV). Please check the following link for more details:
+We maintain a paper list about explanable deep learning. It includes the related papers published in major machine learning conferences (NeurIPS, ICML, and ICLR), security conferences (CCS, USENIX Security, S\&P, and NDSS), and vision conferences (CVPR, ICCV). Please check the following link for more details:
 - https://docs.google.com/document/d/11QMlGF1G42v3sRV76ANaFWqdA30jQdEByBh0d8mlx30/edit?usp=sharing
+
+## Acknowlegdement
+We thank Zhenyu Hu from Texas A&M University for his help in building this repository. 
