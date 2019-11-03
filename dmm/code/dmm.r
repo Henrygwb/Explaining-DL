@@ -1,4 +1,4 @@
-setwd("/home/wzg13/Desktop/Explaining-DL/dmm/code/")
+setwd("C:/Users/zheny/Documents/GitHub/Explaining-DL/dmm/code")
 set.seed(1567)
 
 # Install and import the necessary packages.

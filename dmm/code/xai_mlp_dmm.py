@@ -215,10 +215,10 @@ if __name__ == "__main__":
 
     ## print the positive important features
     for i in np.unique(Z):
-        print (i)
+        print(i)
         fea = np.argsort(Beta[:, (Z[i]-1)])
         # fea = np.argsort(np.abs(Beta[:, (Z[i]-1)])) ## top positive and negative important features
-        print fea
+        print(fea)
 
     ## fidelity test
     n_pos = 0
@@ -234,7 +234,7 @@ if __name__ == "__main__":
     idx = np.nonzero(y_train)[0]
     for i in idx:
         if n%100 ==0:
-            print n
+            print(n)
         data_for_explain = X_train[i,:].reshape(1, 135)
         n = n + 1
 
@@ -262,16 +262,16 @@ if __name__ == "__main__":
         if P_neg_2 > 0.5:
             n_neg_rand = n_neg_rand + 1
 
-    print n
-    print 'Our method'
-    print 'Acc pos:', float(n_pos)/n
-    print 'Acc new:', float(n_new)/n
-    print 'Acc neg:', float(n_neg)/n
+    print(n)
+    print('Our method')
+    print('Acc pos:', float(n_pos)/n)
+    print('Acc new:', float(n_new)/n)
+    print('Acc neg:', float(n_neg)/n)
 
-    print 'Random'
-    print 'Acc pos:', float(n_pos_rand) / n
-    print 'Acc new:', float(n_new_rand) / n
-    print 'Acc neg:', float(n_neg_rand) / n
+    print('Random')
+    print('Acc pos:', float(n_pos_rand) / n)
+    print('Acc new:', float(n_new_rand) / n)
+    print('Acc neg:', float(n_neg_rand) / n)
 
 
     ## fidelity test of lime
@@ -288,7 +288,7 @@ if __name__ == "__main__":
     idx = np.nonzero(y_train)[0]
     for i in idx:
         if n%100 ==0:
-            print n
+            print(n)
         data_for_explain = X_train[i,:].reshape(1, 135)
         n = n + 1
 
@@ -310,8 +310,8 @@ if __name__ == "__main__":
         if P_neg_1 > 0.5:
             n_neg = n_neg + 1
 
-    print n
-    print 'lime'
-    print 'Acc pos:', float(n_pos)/n
-    print 'Acc new:', float(n_new)/n
-    print 'Acc neg:', float(n_neg)/n
+    print(n)
+    print('lime')
+    print('Acc pos:', float(n_pos)/n)
+    print('Acc new:', float(n_new)/n)
+    print('Acc neg:', float(n_neg)/n)
