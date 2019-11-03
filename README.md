@@ -51,7 +51,7 @@ You should be able to get a `dmm_parameters.RData` file which stores the final r
 - Pinpoint the important features by ranking the regression coefficients and conduct the fidelity tests (feature deduction, feature augmentation, and Synthetic test) [2]:
 		
 ```
-python xai_mlp_dmm.py -nf 5
+python xai_mlp_dmm_v1.py -nf 5
 ```
 
 `-nf` controls the number of features selected. The final printed information is the three fidelity testing results of our technique and random feature selection.
